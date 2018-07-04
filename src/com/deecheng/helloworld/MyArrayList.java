@@ -172,7 +172,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             if( !hasNext( ) ) 
                 throw new java.util.NoSuchElementException( ); 
                   
-            okToRemove = true;    
+            okToRemove = true;
             return theItems[ current++ ];
         }
         

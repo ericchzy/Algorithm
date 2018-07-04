@@ -21,8 +21,6 @@ public class Ex0106_Permutation {
                 swap(str, i, low);
             }
         }
-
-
     }
 
     private static void swap(char[] str, int left, int right) {
@@ -30,15 +28,15 @@ public class Ex0106_Permutation {
         str[left] = str[right];
         str[right] = tmp;
     }
-}
 
-class Ex0106_PermutationTestProgram {
+    // Test Program
     public static void main(String[] args) {
         char[] charArray = {'a', 'b', 'c'};
         System.out.println(charArray.length);
         Ex0106_Permutation.permute(charArray, 0 , charArray.length-1);
     }
 }
+
 /* Output:
 3
 abc

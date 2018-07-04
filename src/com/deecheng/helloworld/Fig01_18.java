@@ -34,9 +34,8 @@ public class Fig01_18 {
             return lhs.compareToIgnoreCase(rhs);
         }
     }
-}
 
-class TestProgram {
+    // Test Program
     public static void main(String[] args) {
         String [] arr = {"ZEBRA", "alligator", "crocodile"};
         System.out.println(Fig01_18.findMax(arr, new Fig01_18.CaseInsensitiveCompare()));

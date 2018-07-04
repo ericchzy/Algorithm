@@ -83,8 +83,8 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
         theSize++;
         modCount++;
     }   
-    
-    
+
+
     /**
      * Returns the item at position idx.
      * @param idx the index to search in.

@@ -46,13 +46,12 @@ public class Ex0115_Rectangle {
         }
     }
 
-}
 
-class Ex0115_RectangleTestProgram {
+    // Test Program
     public static void main(String[] args) {
         Ex0115_Rectangle[] arr = { new Ex0115_Rectangle(1,2),
-                            new Ex0115_Rectangle(2,3),
-                            new Ex0115_Rectangle(10,2) };
+                new Ex0115_Rectangle(2,3),
+                new Ex0115_Rectangle(10,2) };
         System.out.println("The biggest rectangle in the array is: " + Fig01_18.findMax(arr, new Ex0115_Rectangle.SquareCompare()).getSquare());
         System.out.println("The longest rectangle in the array is: " + Fig01_18.findMax(arr, new Ex0115_Rectangle.RoundCompare()).getRound());
     }

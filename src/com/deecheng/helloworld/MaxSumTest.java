@@ -150,7 +150,7 @@ public final class MaxSumTest
     {
         int [] test = new int[ n ];
 
-        long startTime = System.currentTimeMillis( );;
+        long startTime = System.currentTimeMillis( );
         long totalTime = 0;
 
         int i;
@@ -218,9 +218,18 @@ public final class MaxSumTest
                 }
                 getTimingInfo( n, alg );
             }
-            
             System.out.println( );
         }
     }
 }
-
+/* Output:
+Max sum is 11; it goes from 0 to 6
+Max sum is 11; it goes from 0 to 6
+Max sum is 11
+Max sum is 11; it goes from 0 to 6
+N =     100	    0.000236	    0.000004	    0.000004	    0.000002
+N =    1000	    0.070403	    0.000260	    0.000046	    0.000018
+N =   10000	   69.827000	    0.021847	    0.000480	    0.000159
+N =  100000	      NA    	    2.159500	    0.005219	    0.001624
+N = 1000000	      NA    	  264.560000	    0.055944	    0.016120
+ *///:~
