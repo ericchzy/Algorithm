@@ -1,6 +1,8 @@
 package com.deecheng.helloworld; /* Added by Eclipse.py */
 
 
+import java.util.Iterator;
+
 public class MyArrayList<AnyType> implements Iterable<AnyType>
 {
     /**
@@ -96,6 +98,17 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
 
         theItems[ idx ] = x;
         theSize++;  
+    }
+
+    /**
+     * Adds all the items to the end of this collection.
+     * @param items list that is Iterable
+     */
+    public void addAll(Iterable<? extends AnyType> items) {
+        Iterator<? extends AnyType> iter = items.iterator();
+        while (iter.hasNext()) {
+            add(iter.next());
+        }
     }
       
     /**

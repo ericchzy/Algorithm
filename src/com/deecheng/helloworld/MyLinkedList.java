@@ -1,5 +1,7 @@
 package com.deecheng.helloworld; /* Added by Eclipse.py */
 
+import java.util.Iterator;
+
 /**
  * LinkedList class implements a doubly-linked list.
  */
@@ -13,7 +15,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
         doClear( );
     }
     
-    private void clear( )
+    protected void clear( )
     {
         doClear( );
     }
@@ -75,7 +77,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
      * @param x any object.
      * @throws IndexOutOfBoundsException if idx is not between 0 and size(), inclusive.
      */    
-    private void addBefore( Node<AnyType> p, AnyType x )
+    protected void addBefore( Node<AnyType> p, AnyType x )
     {
         Node<AnyType> newNode = new Node<>( x, p.prev, p );
         newNode.prev.next = newNode;
@@ -117,7 +119,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
      * @return internal node corresponding to idx.
      * @throws IndexOutOfBoundsException if idx is not between 0 and size( ) - 1, inclusive.
      */
-    private Node<AnyType> getNode( int idx )
+    protected Node<AnyType> getNode( int idx )
     {
         return getNode( idx, 0, size( ) - 1 );
     }
@@ -130,7 +132,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
      * @return internal node corresponding to idx.
      * @throws IndexOutOfBoundsException if idx is not between lower and upper, inclusive.
      */    
-    private Node<AnyType> getNode( int idx, int lower, int upper )
+    protected Node<AnyType> getNode( int idx, int lower, int upper )
     {
         Node<AnyType> p;
         
@@ -168,7 +170,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
      * @param p the Node containing the object.
      * @return the item was removed from the collection.
      */
-    private AnyType remove( Node<AnyType> p )
+    protected AnyType remove( Node<AnyType> p )
     {
         p.next.prev = p.prev;
         p.prev.next = p.next;
@@ -176,6 +178,37 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
         modCount++;
         
         return p.data;
+    }
+
+    /**
+     * Find object x in the collection.
+     * @param x any object.
+     * @return True if founded.
+     */
+    public boolean contains( AnyType x ) {
+        for (int idx = 0; idx < theSize; idx++) {
+            if (getNode(idx).data.equals(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeAll( Iterable<? extends AnyType> items )
+    {
+        AnyType item, element;
+        Iterator<? extends AnyType> iterItems = items.iterator();
+        while ( iterItems.hasNext ( ) )
+        {
+            item = iterItems.next();
+            Iterator<? extends AnyType> iterList = iterator();
+            while ( iterList.hasNext ( ) )
+            {
+                element = iterList.next();
+                if ( element.equals(item) )
+                    iterList.remove();
+            }
+        }
     }
     
     /**
@@ -206,11 +239,11 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
      * It maintains a notion of a current position and of
      * course the implicit reference to the MyLinkedList.
      */
-    private class LinkedListIterator implements java.util.Iterator<AnyType>
+    protected class LinkedListIterator implements java.util.Iterator<AnyType>
     {
-        private Node<AnyType> current = beginMarker.next;
-        private int expectedModCount = modCount;
-        private boolean okToRemove = false;
+        protected Node<AnyType> current = beginMarker.next;
+        protected int expectedModCount = modCount;
+        protected boolean okToRemove = false;
         
         public boolean hasNext( )
         {
@@ -246,7 +279,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
     /**
      * This is the doubly-linked list node.
      */
-    private static class Node<AnyType>
+    protected static class Node<AnyType>
     {
         public Node( AnyType d, Node<AnyType> p, Node<AnyType> n )
         {
@@ -258,10 +291,10 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
         public Node<AnyType>   next;
     }
     
-    private int theSize;
-    private int modCount = 0;
-    private Node<AnyType> beginMarker;
-    private Node<AnyType> endMarker;
+    protected int theSize;
+    protected int modCount = 0;
+    protected Node<AnyType> beginMarker;
+    protected Node<AnyType> endMarker;
 }
 
 class TestLinkedList
@@ -274,11 +307,29 @@ class TestLinkedList
                 lst.add( i );
         for( int i = 20; i < 30; i++ )
                 lst.add( 0, i );
+        System.out.println("Generated Linked List: \n" + lst);
 
         lst.remove( 0 );
         lst.remove( lst.size( ) - 1 );
 
-        System.out.println( lst );
+        System.out.println("Removed head and tail node: \n" + lst);
+
+        System.out.println("If the List contains object 0: " + lst.contains(0));
+
+        System.out.println("If the List contains object 9: " + lst.contains(9));
+
+        MyLinkedList<Integer> removeList = new MyLinkedList<>( );
+
+        for (int i = 1; i < 5; i++) {
+            removeList.add( i );
+        }
+        lst.removeAll(removeList);
+
+        System.out.println("Remove List: " + removeList);
+
+        System.out.println("Removed the items list: " + lst);
+
+        System.out.println("Removed all node using Iterator: ");
 
         java.util.Iterator<Integer> itr = lst.iterator( );
         while( itr.hasNext( ) )

@@ -5,14 +5,14 @@ package com.deecheng.helloworld; /* Added by Eclipse.py */
 // CONSTRUCTION: with no initializer
 //
 // ******************PUBLIC OPERATIONS*********************
-// void insert( x )       --> Insert x
-// void remove( x )       --> Remove x
-// boolean contains( x )  --> Return true if x is present
-// Comparable findMin( )  --> Return smallest item
-// Comparable findMax( )  --> Return largest item
-// boolean isEmpty( )     --> Return true if empty; else false
-// void makeEmpty( )      --> Remove all items
-// void printTree( )      --> Print tree in sorted order
+//// void insert( x )       --> Insert x
+//// void remove( x )       --> Remove x
+//// boolean contains( x )  --> Return true if x is present
+//// Comparable findMin( )  --> Return smallest item
+//// Comparable findMax( )  --> Return largest item
+//// boolean isEmpty( )     --> Return true if empty; else false
+//// void makeEmpty( )      --> Remove all items
+//// void printTree( )      --> Print tree in sorted order
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
 
@@ -74,7 +74,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
     /**
      * Find an item in the tree.
      * @param x the item to search for.
-     * @return true if not found.
+     * @return true if found.
      */
     public boolean contains( AnyType x )
     {
@@ -174,7 +174,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>>
 
     /**
      * Internal method to find the largest item in a subtree.
-     * @param t the node that roots the subtree.
+     * @param t the node  that roots the subtree.
      * @return node containing the largest item.
      */
     private BinaryNode<AnyType> findMax( BinaryNode<AnyType> t )
