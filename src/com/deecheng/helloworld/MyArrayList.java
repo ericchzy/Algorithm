@@ -209,7 +209,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             }
 
             okToRemove = true;
-            return theItems[current--];
+            return theItems[--current];
         }
 
         @Override
@@ -248,7 +248,44 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         }
 
     }
-    
+
+    /**
+     * Obtains an reverse Iterator object used to traverse the collection.
+     * @return an iterator positioned prior to the last element.
+     */
+    public java.util.Iterator<AnyType> reverseIterator( )
+    {
+        return new ArrayListReverseIterator( );
+    }
+
+    /**
+     * This is the implementation of the ArrayListReverseIterator.
+     * It maintains a notion of a current position and of
+     * course the implicit reference to the MyArrayList.
+     */
+    private class ArrayListReverseIterator implements java.util.Iterator<AnyType> {
+        private int current = size();
+        private boolean okToRemove = false;
+        private int expectedModCount = modCount;
+
+        @Override
+        public boolean hasNext() {
+            return current > 0;
+        }
+
+        @Override
+        public AnyType next() {
+            if( modCount != expectedModCount )
+                throw new java.util.ConcurrentModificationException( );
+            if( !hasNext( ) )
+                throw new java.util.NoSuchElementException( );
+
+            okToRemove = true;
+            return theItems[--current];
+        }
+    }
+
+
     private static final int DEFAULT_CAPACITY = 10;
     private int modCount = 0;
     private AnyType [ ] theItems;
@@ -277,6 +314,11 @@ class TestArrayList
         }
         while (itr.hasPrevious()) {
             System.out.println(itr.previous());
+        }
+
+        Iterator reverseIterator = lst.reverseIterator();
+        while (reverseIterator.hasNext()) {
+            System.out.println(reverseIterator.next());
         }
     }
 }
