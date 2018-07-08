@@ -2,6 +2,7 @@ package com.deecheng.helloworld; /* Added by Eclipse.py */
 
 
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class MyArrayList<AnyType> implements Iterable<AnyType>
 {
@@ -56,7 +57,8 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             throw new ArrayIndexOutOfBoundsException( "Index " + idx + "; size " + size( ) );
         AnyType old = theItems[ idx ];    
         theItems[ idx ] = newVal;
-        
+        modCount++;
+
         return old;    
     }
 
@@ -70,6 +72,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         theItems = (AnyType []) new Object[ newCapacity ];
         for( int i = 0; i < size( ); i++ )
             theItems[ i ] = old[ i ];
+        modCount++;
     }
     
     /**
@@ -79,7 +82,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
      */
     public boolean add( AnyType x )
     {
-    add( size( ), x );
+        add( size( ), x );
         return true;            
     }
     
@@ -97,17 +100,18 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             theItems[ i ] = theItems[ i - 1 ];
 
         theItems[ idx ] = x;
-        theSize++;  
+        theSize++;
+        modCount++;
     }
 
     /**
      * Adds all the items to the end of this collection.
      * @param items list that is Iterable
      */
+    //TODO: Deal with modCount param
     public void addAll(Iterable<? extends AnyType> items) {
-        Iterator<? extends AnyType> iter = items.iterator();
-        while (iter.hasNext()) {
-            add(iter.next());
+        for (AnyType item : items) {
+            add(item);
         }
     }
       
@@ -122,7 +126,8 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         
         for( int i = idx; i < size( ) - 1; i++ )
             theItems[ i ] = theItems[ i + 1 ];
-        theSize--;    
+        theSize--;
+        modCount++;
         
         return removedItem;
     }
@@ -145,7 +150,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
      * Obtains an Iterator object used to traverse the collection.
      * @return an iterator positioned prior to the first element.
      */
-    public java.util.Iterator<AnyType> iterator( )
+    public java.util.ListIterator<AnyType> iterator( )
     {
         return new ArrayListIterator( );
     }
@@ -173,14 +178,16 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
     {
         private int current = 0;
         private boolean okToRemove = false;
+        private int expectedModCount = modCount;
         
         public boolean hasNext( )
         {
             return current < size( );
         }
 
-        public AnyType next( )
-        {
+        public AnyType next( ) {
+            if( modCount != expectedModCount )
+                throw new java.util.ConcurrentModificationException( );
             if( !hasNext( ) )
                 throw new java.util.NoSuchElementException( );
                   
@@ -195,10 +202,13 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
 
         @Override
         public AnyType previous() {
+            if( modCount != expectedModCount )
+                throw new java.util.ConcurrentModificationException( );
             if (!hasPrevious()) {
                 throw new java.util.NoSuchElementException();
             }
 
+            okToRemove = true;
             return theItems[current--];
         }
 
@@ -212,29 +222,35 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             return current - 1;
         }
 
-        public void remove( )
-        {
+        public void remove( ) {
+            if( modCount != expectedModCount )
+                throw new java.util.ConcurrentModificationException( );
             if( !okToRemove )
                 throw new IllegalStateException( );
                 
             MyArrayList.this.remove( --current );
             okToRemove = false;
+            expectedModCount++;
         }
 
         @Override
         public void set(AnyType x) {
-            theItems[current] = x;
-
+            MyArrayList.this.set(current, x);
+            expectedModCount++;
         }
 
         @Override
         public void add(AnyType x) {
-            theItems[current] = x;
+            if( modCount != expectedModCount )
+                throw new java.util.ConcurrentModificationException( );
+            MyArrayList.this.add(current, x);
+            expectedModCount++;
         }
+
     }
     
     private static final int DEFAULT_CAPACITY = 10;
-    
+    private int modCount = 0;
     private AnyType [ ] theItems;
     private int theSize;
 }
@@ -254,5 +270,13 @@ class TestArrayList
         lst.remove( lst.size( ) - 1 );
 
         System.out.println( lst );
+
+        ListIterator itr = lst.iterator();
+        while (itr.hasNext()) {
+            System.out.println(itr.next());
+        }
+        while (itr.hasPrevious()) {
+            System.out.println(itr.previous());
+        }
     }
 }

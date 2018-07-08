@@ -291,10 +291,10 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
         public Node<AnyType>   next;
     }
     
-    protected int theSize;
-    protected int modCount = 0;
-    protected Node<AnyType> beginMarker;
-    protected Node<AnyType> endMarker;
+    private int theSize;
+    private int modCount = 0;
+    private Node<AnyType> beginMarker;
+    private Node<AnyType> endMarker;
 }
 
 class TestLinkedList
