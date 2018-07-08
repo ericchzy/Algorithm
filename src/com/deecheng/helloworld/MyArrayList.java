@@ -169,7 +169,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
      * It maintains a notion of a current position and of
      * course the implicit reference to the MyArrayList.
      */
-    private class ArrayListIterator implements java.util.Iterator<AnyType>
+    private class ArrayListIterator implements java.util.ListIterator<AnyType>
     {
         private int current = 0;
         private boolean okToRemove = false;
@@ -178,17 +178,40 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         {
             return current < size( );
         }
-        
-        
+
         public AnyType next( )
         {
-            if( !hasNext( ) ) 
-                throw new java.util.NoSuchElementException( ); 
+            if( !hasNext( ) )
+                throw new java.util.NoSuchElementException( );
                   
             okToRemove = true;
-            return theItems[ current++ ];
+            return theItems[current++];
         }
-        
+
+        @Override
+        public boolean hasPrevious() {
+            return current > 0;
+        }
+
+        @Override
+        public AnyType previous() {
+            if (!hasPrevious()) {
+                throw new java.util.NoSuchElementException();
+            }
+
+            return theItems[current--];
+        }
+
+        @Override
+        public int nextIndex() {
+            return current + 1;
+        }
+
+        @Override
+        public int previousIndex() {
+            return current - 1;
+        }
+
         public void remove( )
         {
             if( !okToRemove )
@@ -196,6 +219,17 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
                 
             MyArrayList.this.remove( --current );
             okToRemove = false;
+        }
+
+        @Override
+        public void set(AnyType x) {
+            theItems[current] = x;
+
+        }
+
+        @Override
+        public void add(AnyType x) {
+            theItems[current] = x;
         }
     }
     
