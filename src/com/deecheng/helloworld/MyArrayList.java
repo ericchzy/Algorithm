@@ -179,6 +179,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         private int current = 0;
         private boolean okToRemove = false;
         private int expectedModCount = modCount;
+        private boolean backwards = false;
         
         public boolean hasNext( )
         {
@@ -207,7 +208,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
             if (!hasPrevious()) {
                 throw new java.util.NoSuchElementException();
             }
-
+            backwards = true;
             okToRemove = true;
             return theItems[--current];
         }
@@ -227,8 +228,12 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
                 throw new java.util.ConcurrentModificationException( );
             if( !okToRemove )
                 throw new IllegalStateException( );
-                
-            MyArrayList.this.remove( --current );
+
+            if (backwards) {
+                MyArrayList.this.remove(current--);
+            } else {
+                MyArrayList.this.remove(--current);
+            }
             okToRemove = false;
             expectedModCount++;
         }
@@ -243,7 +248,7 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
         public void add(AnyType x) {
             if( modCount != expectedModCount )
                 throw new java.util.ConcurrentModificationException( );
-            MyArrayList.this.add(current, x);
+            MyArrayList.this.add(current++, x);
             expectedModCount++;
         }
 
@@ -282,6 +287,11 @@ public class MyArrayList<AnyType> implements Iterable<AnyType>
 
             okToRemove = true;
             return theItems[--current];
+        }
+
+        @Override
+        public void remove() {
+            MyArrayList.this.remove(--current);
         }
     }
 

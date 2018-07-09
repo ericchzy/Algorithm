@@ -262,7 +262,7 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType>
             okToRemove = true;
             return nextItem;
         }
-        
+
         public void remove( )
         {
             if( modCount != expectedModCount )
