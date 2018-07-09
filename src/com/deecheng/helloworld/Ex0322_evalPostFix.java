@@ -9,7 +9,6 @@ public class Ex0322_evalPostFix {
         String token;
         Double a, b, result = 0.0;
         boolean isNumber;
-
         Scanner sc = new Scanner(System.in);
         token = sc.next();
         while (token.charAt(0) != '=') {
@@ -45,14 +44,19 @@ public class Ex0322_evalPostFix {
                         break;
                     case '^':
                         a = s.pop();
+
                         b = s.pop();
                         s.push(a * Math.log(b));
                         break;
-
                 }
             }
             token = sc.next();
         }
         return s.peek();
+    }
+
+    public static void main(String[] args) {
+        Double result = evalPostFix();
+        System.out.println(result);
     }
 }
