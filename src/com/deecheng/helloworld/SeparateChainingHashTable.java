@@ -195,14 +195,17 @@ public class SeparateChainingHashTable<AnyType>
 
         System.out.println( "Checking... (no more output means success)" );
 
-        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS )
+        for( int i = GAP; i != 0; i = ( i + GAP ) % NUMS ) {
             H.insert( i );
-        for( int i = 1; i < NUMS; i+= 2 )
+        }
+        for( int i = 1; i < NUMS; i+=2 )
             H.remove( i );
 
-        for( int i = 2; i < NUMS; i+=2 )
+        for( int i = 2; i < NUMS; i+=2 ) {
             if( !H.contains( i ) )
                 System.out.println( "Find fails " + i );
+
+        }
 
         for( int i = 1; i < NUMS; i+=2 )
         {
@@ -213,6 +216,7 @@ public class SeparateChainingHashTable<AnyType>
         long endTime = System.currentTimeMillis( );
         
         System.out.println( "Elapsed time: " + (endTime - startTime) );
+
     }
 
 }
