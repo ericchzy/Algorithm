@@ -157,7 +157,6 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>>
                 t = rotateWithRightChild( t );
             else
                 t = doubleWithRightChild( t );
-
         t.height = Math.max( height( t.left ), height( t.right ) ) + 1;
         return t;
     }

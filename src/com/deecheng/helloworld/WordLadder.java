@@ -137,7 +137,7 @@ public class WordLadder
     
     // Computes a map in which the keys are words and values are Lists of words
     // that differ in only one character from the corresponding key.
-    // Uses an efficient algorithm that is O(N log N) with a TreeMap, or
+    // Uses an efficient algorithm that is O(N log N) with a MyTreeSet, or
     // O(N) if a HashMap is used.
     public static Map<String,List<String>> computeAdjacentWords( List<String> words )
     {
